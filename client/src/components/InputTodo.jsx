@@ -19,10 +19,11 @@ export default function InputTodo() {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <h1 className="font-bold text-3xl py-5">To Do List</h1>
+      <div className="font-bold font-sans text-3xl py-5">To Do List</div>
       <form onSubmit={submitHandler}>
         <label className="flex justify-center gap-4 rounded-full drop-shadow-pop p-4 bg-[#f1f1f5]">
           <input
+            placeholder="I want to accomplish..."
             type="text"
             className="bg-transparent outline-none mx-6"
             value={description}
