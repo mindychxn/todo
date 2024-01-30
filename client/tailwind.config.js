@@ -2,6 +2,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Nunito', 'sans-serif'],
+    },
     extend: {
       dropShadow: {
         pop: ['-10px -10px 5px #ffffffcc', '10px 10px 5px #dddde0'],
