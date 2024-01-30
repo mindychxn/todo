@@ -7,8 +7,11 @@ export default {
     },
     extend: {
       dropShadow: {
-        pop: ['-10px -10px 5px #ffffffcc', '10px 10px 5px #dddde0'],
-        concave: ['-5px -5px 10px #ffffffcc', '5px 10px 10px #dddde0'],
+        pop: ['-5px -5px 3px #ffffff', '5px 5px 3px #c3c3c9'],
+      },
+      boxShadow: {
+        inset: ['3px 3px 5px #c3c3c9 inset, -3px -3px 5px #ffffff inset'],
+        pop: ['-3px -3px 5px #ffffff', '3px 3px 5px #c3c3c9'],
       },
     },
   },
