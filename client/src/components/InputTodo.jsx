@@ -16,12 +16,13 @@ export default function InputTodo() {
       console.error(err);
     }
   };
-
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
   return (
-    <div className="flex flex-col items-center gap-4 mt-6">
-      <div className="font-bold font-sans text-3xl">To Do List</div>
+    <div className="flex flex-col justify-center items-center gap-10  w-full h-1/3">
+      <div className="font-extrabold text-4xl">{greeting} 👋</div>
       <form onSubmit={submitHandler}>
-        <label className="flex justify-center gap-4 rounded-full drop-shadow-pop px-3 py-3 bg-[#f1f1f5]">
+        <label className="flex w-full justify-center gap-4 rounded-full shadow-inset px-3 py-3 bg-[#f1f1f5]">
           <input
             placeholder="I want to accomplish..."
             type="text"
@@ -29,7 +30,10 @@ export default function InputTodo() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <button type="submit" className="bg-[#678cdc] rounded-full py-2 px-4 text-sm text-white">
+          <button
+            type="submit"
+            className="bg-blue-500 rounded-full py-2 px-4 text-sm text-white shadow-pop"
+          >
             ADD
           </button>
         </label>

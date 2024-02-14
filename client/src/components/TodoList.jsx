@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import EditTodo from './EditTodo';
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -8,7 +9,7 @@ export default function TodoList() {
     try {
       const response = await fetch('http://localhost:3000/todos');
       const jsonData = await response.json(); // parse
-      setTodos(jsonData);
+      setTodos(jsonData.sort((a, b) => b.id - a.id)); // sort from newest to oldest
       console.log(todos);
     } catch (err) {
       console.error(err);
@@ -27,20 +28,34 @@ export default function TodoList() {
       console.error(err);
     }
   };
+
   return (
     <div className="flex flex-col gap-4 w-3/4">
-      <div className="font-semibold">List To Dos</div>
+      <div className="font-extrabold text-xl">My Tasks</div>
       {todos.map((todo) => (
-        <div key={todo.id} className="flex justify-between w-full bg-white py-2 px-4 rounded-lg">
-          <label className="flex gap-2">
-            <input type="checkbox" />
-            <div>{todo.description.charAt(0).toUpperCase() + todo.description.slice(1)}</div>
-          </label>
-          <div className="flex gap-2">
-            <button className="bg-blue-100">Edit</button>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        <>
+          <div
+            key={todo.id}
+            className="flex justify-between items-center w-full bg-white py-2 px-4 rounded-lg"
+          >
+            <label className="flex gap-2">
+              <input type="checkbox" />
+              <div>
+                {/* todo.description.charAt(0).toUpperCase() + todo.description.slice(1)} */}
+                {todo.description}
+              </div>
+            </label>
+            <div className="flex gap-2">
+              <EditTodo todo={todo} />
+              <button
+                className="bg-gray-100 px-4 py-2 rounded-full"
+                onClick={() => deleteTodo(todo.id)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       ))}
     </div>
   );
