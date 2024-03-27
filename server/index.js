@@ -12,6 +12,8 @@ app.use('/auth', require('./routes/jwtAuth'));
 
 app.use('/todos', require('./routes/todos'));
 
+app.use('/dashboard', require('./routes/dashboard'));
+
 app.listen(3000, () => {
   console.log('Server started on port 3000...');
 });
