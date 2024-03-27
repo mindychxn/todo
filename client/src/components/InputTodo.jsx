@@ -16,11 +16,9 @@ export default function InputTodo() {
       console.error(err);
     }
   };
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+
   return (
     <div className="flex flex-col justify-center items-center gap-10  w-full h-1/3">
-      <div className="font-extrabold text-4xl">{greeting} 👋</div>
       <form onSubmit={submitHandler}>
         <label className="flex w-full justify-center gap-4 rounded-full shadow-inset px-3 py-3 bg-[#f1f1f5]">
           <input
