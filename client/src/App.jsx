@@ -6,7 +6,7 @@ import Registration from './components/Registration';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const authenticate = (bool) => {
+  const setAuth = (bool) => {
     setIsAuthenticated(bool);
   };
   return (
@@ -18,7 +18,7 @@ export default function App() {
             path="/login"
             render={(props) =>
               !isAuthenticated ? (
-                <Login {...props} authenticate={authenticate} />
+                <Login {...props} authenticate={setAuth} />
               ) : (
                 <Redirect to="/dashboard" />
               )
@@ -28,7 +28,11 @@ export default function App() {
             exact
             path="/register"
             render={(props) =>
-              !isAuthenticated ? <Registration {...props} /> : <Redirect to="/dashboard" />
+              !isAuthenticated ? (
+                <Registration {...props} authenticate={setAuth} />
+              ) : (
+                <Redirect to="/dashboard" />
+              )
             }
           />
           <Route
@@ -36,7 +40,7 @@ export default function App() {
             path="/dashboard"
             render={(props) =>
               isAuthenticated ? (
-                <Dashboard {...props} authenticate={authenticate} />
+                <Dashboard {...props} authenticate={setAuth} />
               ) : (
                 <Redirect to="/login" />
               )
