@@ -47,20 +47,20 @@ router.post('/register', validInfo, async (req, res) => {
 router.post('/login', validInfo, async (req, res) => {
   try {
     // destructure the req.body, expecting a request with login info of email and password
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // check if user exists, if not throw error
 
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
     if (user.rows.length === 0) {
-      return res.status(401).json('Password or Email is incorrect');
+      return res.status(401).json('Password or Username is incorrect');
     }
     // check if incoming password is correct
 
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (!validPassword) {
-      return res.status(401).json('Password or Email is incorrect');
+      return res.status(401).json('Password or Username is incorrect');
     }
 
     // generate jwt token if login is successful
