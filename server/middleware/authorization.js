@@ -4,7 +4,7 @@ require('dotenv').config();
 module.exports = async (req, res, next) => {
   try {
     const jwtToken = req.header('token');
-    if (!jwtToken) return res.status(403).json('Not authorized');
+    if (!jwtToken) return res.status(403).json(false);
 
     const payload = jwt.verify(jwtToken, process.env.jwtSecret);
 
@@ -12,6 +12,6 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error.message);
-    return res.status(403).json('Not authorized');
+    return res.status(403).json(false);
   }
 };
