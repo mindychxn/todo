@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import './login.css';
+import GlassCard from './GlassCard';
+import { TextField } from '@mui/material';
 
 export default function Login({ authenticate }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const body = { username, password };
@@ -15,23 +19,44 @@ export default function Login({ authenticate }) {
     localStorage.setItem('token', parseRes.token);
     authenticate(true);
   };
+
   return (
-    <form className="flex flex-col justify-center" onSubmit={handleLogin}>
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button>Log In</button>
-    </form>
+    <div className="flex items-center justify-center w-screen h-screen login-page p-20 gap-8">
+      <form className="w-1/3" onSubmit={handleLogin}>
+        <GlassCard className="flex-col px-16 py-12 gap-8">
+          <div className="flex flex-col items-center gap-4">
+            <div className="font-bold text-5xl text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue leading-tight">
+              Login
+            </div>
+            <div className="text-charcoal text-center">
+              Welcome back! You’re just one step away from accomplishing your goals.
+            </div>
+          </div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            className="focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="mt-2 w-fit py-2.5 px-6 bg-babyPink rounded-lg text-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPink
+            text-charcoal"
+          >
+            Get Started
+          </button>
+        </GlassCard>
+      </form>
+    </div>
   );
 }
