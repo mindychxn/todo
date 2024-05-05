@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './login.css';
 import GlassCard from './GlassCard';
-import { TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function Login({ authenticate }) {
   const [username, setUsername] = useState('');
@@ -21,9 +21,9 @@ export default function Login({ authenticate }) {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen login-page p-20 gap-8">
+    <div className="flex items-center justify-center w-screen h-screen login-page">
       <form className="w-1/3" onSubmit={handleLogin}>
-        <GlassCard className="flex-col px-16 py-12 gap-8">
+        <GlassCard className="flex-col px-16 py-12 gap-6">
           <div className="flex flex-col items-center gap-4">
             <div className="font-bold text-5xl text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue leading-tight">
               Login
@@ -55,6 +55,14 @@ export default function Login({ authenticate }) {
           >
             Get Started
           </button>
+          <div className=" text-sm text-[#C2C2C2]">
+            Dont have an account?
+            <Link to="/register">
+              <button className="ml-2 text-babyPurple hover:text-[#ae85e3] transition duration-300 hover:scale-105">
+                Sign Up
+              </button>
+            </Link>
+          </div>
         </GlassCard>
       </form>
     </div>
