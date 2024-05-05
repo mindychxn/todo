@@ -6,6 +6,13 @@ export default {
       sans: ['Poppins', 'sans-serif'],
     },
     extend: {
+      colors: {
+        babyPink: '#FFD2D8',
+        darkPink: '#ffb8c1',
+        babyBlue: '#BBE2FF',
+        babyPurple: '#D4B2FF',
+        charcoal: '#405064'
+      },
       dropShadow: {
         pop: ['-5px -5px 3px #ffffff', '5px 5px 3px #c3c3c9'],
       },
