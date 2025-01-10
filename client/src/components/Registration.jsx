@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './registration.css';
 import GlassCard from './GlassCard';
 import { Link } from 'react-router-dom';
 
@@ -73,7 +72,7 @@ export default function Registration({ authenticate }) {
             Already have an account?
             <Link to="/login">
               <button className="ml-2 text-darkPink hover:text-[#f399a5] transition duration-300 hover:scale-105">
-                Log In
+                Get started
               </button>
             </Link>
           </div>

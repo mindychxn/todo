@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './login.css';
 import GlassCard from './GlassCard';
 import { Link } from 'react-router-dom';
 
