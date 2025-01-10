@@ -55,7 +55,7 @@ export default function Landing() {
           </button>
         </Link>
       </div>
-      <GlassCard className="flex-col gap-8 animate-float1 py-12 px-14">
+      <GlassCard className="flex-col items-center justify-center gap-8 animate-float1 py-12 px-14">
         <div className="font-semibold text-[26px]">The Grinch's To Do List</div>
         <div className="text-xl space-y-8 w-full">
           {grinchTodos.map((todo, i) => (

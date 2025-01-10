@@ -28,9 +28,9 @@ export default function Registration({ authenticate }) {
     }
   };
   return (
-    <div className="flex items-center justify-center w-screen h-screen register-page">
+    <div className="flex items-center justify-center w-screen h-screen bg-gradient2 bg-cover">
       <form className="w-1/3" onSubmit={handleRegister}>
-        <GlassCard className="flex-col px-16 py-12 gap-6">
+        <GlassCard className="flex-col items-center justify-center px-16 py-12 gap-6">
           <div className="flex flex-col items-center gap-4">
             <div className="font-bold text-5xl text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue leading-tight">
               Sign Up

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 export default function Login({ authenticate }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,15 +16,20 @@ export default function Login({ authenticate }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    const parseRes = await res.json();
-    localStorage.setItem('token', parseRes.token);
-    authenticate(true);
+    if (res.ok) {
+      const parseRes = await res.json();
+      localStorage.setItem('token', parseRes.token);
+      setError(false);
+      authenticate(true);
+    } else {
+      setError(true);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen login-page">
+    <div className="flex items-center justify-center w-screen h-screen bg-gradient2 bg-cover">
       <form className="w-1/3" onSubmit={handleLogin}>
-        <GlassCard className="flex-col px-16 py-12 gap-6">
+        <GlassCard className="flex-col items-center justify-center px-16 py-12 gap-6">
           <div className="flex flex-col items-center gap-4">
             <div className="font-bold text-5xl text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue leading-tight">
               Login
@@ -36,26 +42,30 @@ export default function Login({ authenticate }) {
             type="text"
             name="username"
             placeholder="Username"
-            className="focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg"
+            autoComplete="off"
+            autoFocus
+            required
+            className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg ${error && 'ring-2 ring-red-300'}`}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg"
+            className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg ${error && 'ring-2 ring-red-300'}`}
+            required
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
             type="submit"
-            className="mt-2 w-fit py-2.5 px-6 bg-babyPink rounded-lg text-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPink
+            className="mt-2 w-fit py-2.5 px-6 bg-babyPink rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPink
             text-charcoal"
           >
-            Get Started
+            Log in
           </button>
-          <div className=" text-sm text-[#C2C2C2]">
+          <div className="min-w-fit whitespace-nowrap text-sm text-[#C2C2C2]">
             Dont have an account?
             <Link to="/register">
               <button className="ml-2 text-babyPurple hover:text-[#ae85e3] transition duration-300 hover:scale-105">
