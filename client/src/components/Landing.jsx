@@ -21,7 +21,7 @@ export default function Landing() {
         <div className="w-1/3 font-bold text-4xl text-center">Taskify.</div>
         <div className="flex justify-end gap-3 text-lg w-1/3">
           <Link to={'/login'}>
-            <button className="font-medium py-2 px-4  transition ease-in-out duration-200 hover:text-charcoal/80 hover:scale-105">
+            <button className="font-medium py-2 px-4 transition ease-in-out duration-200 hover:scale-105">
               Log In
             </button>
           </Link>
@@ -60,7 +60,7 @@ export default function Landing() {
         <div className="text-xl space-y-8 w-full">
           {grinchTodos.map((todo, i) => (
             <div className="flex gap-4 items-center" key={i}>
-              <div class="mt-2 checkbox-wrapper-13 scale-150 hover:scale-[1.6] transition">
+              <div className="mt-2 checkbox-wrapper-13 scale-150 hover:scale-[1.6] transition">
                 <input id="c1-13" type="checkbox" />
               </div>
               {todo}

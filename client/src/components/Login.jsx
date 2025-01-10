@@ -64,10 +64,10 @@ export default function Login({ authenticate }) {
           >
             Log in
           </button>
-          <div className="min-w-fit whitespace-nowrap text-sm text-[#C2C2C2]">
+          <div className="min-w-fit whitespace-nowrap text-sm text-gray-400">
             Dont have an account?
             <Link to="/register">
-              <button className="ml-2 text-babyPurple hover:text-[#ae85e3] transition duration-300 hover:scale-105">
+              <button className="ml-2 text-charcoal hover:text-[#ae85e3] transition duration-300 hover:scale-105">
                 Sign Up
               </button>
             </Link>

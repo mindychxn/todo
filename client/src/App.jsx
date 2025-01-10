@@ -17,7 +17,6 @@ export default function App() {
           headers: { token: localStorage.token },
         });
         const parseRes = await res.json();
-        console.log('is Auth' + parseRes);
         parseRes ? setIsAuthenticated(true) : setIsAuthenticated(false);
       } catch (error) {
         console.error(error);
@@ -44,7 +43,7 @@ export default function App() {
               exact
               path="/"
               render={(props) =>
-                !isAuthenticated ? <Landing {...props} /> : <Redirect to="/dashboard" />
+                !isAuthenticated ? <Landing {...props} /> : <Redirect to="/dashboard/" />
               }
             />
             <Route
@@ -54,7 +53,7 @@ export default function App() {
                 !isAuthenticated ? (
                   <Login {...props} authenticate={setAuth} />
                 ) : (
-                  <Redirect to="/dashboard" />
+                  <Redirect to="/dashboard/" />
                 )
               }
             />
@@ -65,13 +64,13 @@ export default function App() {
                 !isAuthenticated ? (
                   <Registration {...props} authenticate={setAuth} />
                 ) : (
-                  <Redirect to="/dashboard" />
+                  <Redirect to="/dashboard/" />
                 )
               }
             />
             <Route
               exact
-              path="/dashboard"
+              path="/dashboard/*"
               render={(props) =>
                 isAuthenticated ? (
                   <Dashboard {...props} authenticate={setAuth} />

@@ -1,5 +1,5 @@
 import logo from '../assets/checklist.png';
-
+import { Link } from 'react-router-dom';
 export default function Nav({authenticate}) {
   const tabs = ['Home', 'Today', 'Completed'];
 
@@ -10,17 +10,21 @@ export default function Nav({authenticate}) {
           <img src={logo} className="w-[40px] h-[35px]" />
           Taskify.
         </div>
-        {tabs.map((tab, i) => (
-          <button className="text-left py-3 px-7 hover:bg-babyPurple/70 duration-300" key={i}>
-            {tab}
-          </button>
-        ))}
+        <Link to="/dashboard/home" className="text-left py-3 px-7 hover:bg-babyPurple duration-300">
+          Home
+        </Link>
+        <Link to="/dashboard/today" className="text-left py-3 px-7 hover:bg-babyPurple duration-300">
+          Today
+        </Link>
+        <Link to="/dashboard/completed" className="text-left py-3 px-7 hover:bg-babyPurple duration-300">
+          Completed
+        </Link>
       </div>
       <button
-        className="mb-7 bg-babyPink mx-6 px-4 py-2 rounded-lg"
+        className="mb-7 bg-babyPink mx-6 px-4 py-2 rounded-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPink text-charcoal"
         onClick={() => (authenticate(false), localStorage.removeItem('token'))}
       >
-        Logout
+        Log out
       </button>
     </div>
   );

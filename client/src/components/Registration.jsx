@@ -3,6 +3,7 @@ import GlassCard from './GlassCard';
 import { Link } from 'react-router-dom';
 
 export default function Registration({ authenticate }) {
+  // TODO: check if email/username already exists in users table before creating new user
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,11 +69,11 @@ export default function Registration({ authenticate }) {
           >
             Register
           </button>
-          <div className=" text-sm text-[#C2C2C2]">
+          <div className=" text-sm text-gray-400">
             Already have an account?
             <Link to="/login">
-              <button className="ml-2 text-darkPink hover:text-[#f399a5] transition duration-300 hover:scale-105">
-                Get started
+              <button className="ml-2 text-charcoal hover:text-[#f399a5] transition duration-300 hover:scale-105">
+                Log in
               </button>
             </Link>
           </div>
