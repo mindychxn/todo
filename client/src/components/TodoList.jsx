@@ -1,68 +1,52 @@
-import { useEffect, useState } from 'react';
 import EditTodo from './EditTodo';
 import GlassCard from './GlassCard';
-export default function TodoList() {
-  const [todos, setTodos] = useState([]);
-  //TODO: sorting/filtering
-  //get all todos
-  const getTodos = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/todos', {
-        method: 'GET',
-        headers: {
-          'token': token,
-          'Content-Type': 'application/json',
-        },
-      });
-      const jsonData = await response.json(); // parse
-      console.log(jsonData)
-      setTodos(jsonData); // sort from newest to oldest
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  
-  useEffect(() => {
-    getTodos();
-  }, []);
+import DeleteIcon from '@mui/icons-material/Delete';
+import { editTodo } from '../api/api';
 
-  // delete function
-  const deleteTodo = async (id) => {
-    try {
-      const deleteTodo = await fetch(`http://localhost:3000/todos/${id}`, { method: 'DELETE' });
-      setTodos(todos.filter((todo) => todo.id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+export default function TodoList({todos, onDelete, onEdit}) {
+
+  const onComplete = async(todo) => {
+    await editTodo(todo.todo_id, todo.description, todo.due, true);
+    onEdit();
+  }
 
   return (
     <GlassCard className="w-full flex-col gap-4 p-10">
       <div className="font-medium text-xl">All Tasks</div>
-      {todos.map((todo) => (
+      {todos.length > 0 ? todos.map((todo) => (
         <div
-          key={todo.id}
-          className="flex justify-between items-center w-full bg-white/60 py-2 px-4 rounded-lg"
+          key={todo.todo_id}
+          className="flex justify-between items-center w-full bg-white/60 py-4 px-6 rounded-lg"
         >
-          <label className="flex gap-2">
-            <input type="checkbox" />
+          <label className="flex gap-6 items-center w-full">
+            <div className="ml-1 mt-2 checkbox-wrapper-13 scale-150 hover:scale-[1.6] transition">
+              <input id="c1-13" type="checkbox" onChange={() => onComplete(todo)} />
+            </div>
             <div>
-              {/* todo.description.charAt(0).toUpperCase() + todo.description.slice(1)} */}
+              <div className='text-sm text-gray-400'>
+                {new Date(todo.due).toLocaleString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </div>
+              <div>
               {todo.description}
+              </div>
             </div>
           </label>
-          <div className="flex gap-2">
-            <EditTodo todo={todo} />
+          <div className="flex gap-2 items-center">
+            <EditTodo todo={todo} onEdit={onEdit} />
             <button
-              className="bg-babyPink px-4 py-2 rounded-lg"
-              onClick={() => deleteTodo(todo.id)}
+              className=" hover:scale-105 transition ease-in-out duration-300 text-gray-500 hover:text-charcoal"
+              onClick={() => onDelete(todo.todo_id)}
             >
-              Delete
+              <DeleteIcon />
             </button>
           </div>
         </div>
-      ))}
+      )) : <div className='text-gray-400 font-light'>You currently have no tasks.</div>}
     </GlassCard>
   );
 }

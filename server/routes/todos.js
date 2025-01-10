@@ -21,8 +21,8 @@ router.post('/create', authorization, async (req, res) => {
 router.get('/', authorization, async (req, res) => {
   try {
     const userId = req.user;
-    console.log(userId)
-    const allTodos = await pool.query('SELECT * FROM todo WHERE user_id = $1 ORDER BY due DESC', [userId]);
+    const complete = req.query.complete;
+    const allTodos = await pool.query('SELECT * FROM todo WHERE user_id = $1 AND complete = $2 ORDER BY due ASC', [userId, complete]);
 
     res.json(allTodos.rows);
   } catch (err) {
@@ -34,7 +34,7 @@ router.get('/', authorization, async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const todo = await pool.query('SELECT * FROM todo WHERE id = $1', [id]);
+    const todo = await pool.query('SELECT * FROM todo WHERE todo_id = $1', [id]);
     res.json(todo.rows[0]);
   } catch (err) {
     console.error(err);
@@ -45,10 +45,10 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params; // get id from url param
-    const { description } = req.body; // get updated decription from body of req
+    const { description, due, complete } = req.body; // get updated decription from body of req
     const updateTodo = await pool.query(
-      'UPDATE todo SET description = $1 WHERE id = $2 RETURNING *',
-      [description, id]
+      'UPDATE todo SET description = $1, due = $2, complete = $3 WHERE todo_id = $4 RETURNING *',
+      [description, due, complete, id]
     );
     res.json(updateTodo.rows[0]);
   } catch (err) {
@@ -60,11 +60,24 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const deleteTodo = await pool.query('DELETE FROM todo WHERE id = $1', [id]);
+    const deleteTodo = await pool.query('DELETE FROM todo WHERE todo_id = $1', [id]);
     res.json(deleteTodo.rows[0]);
   } catch (err) {
-    console.lerror(err);
+    console.error(err);
   }
 });
+
+// get all todos for today
+router.get('/today', authorization, async (req, res) => {
+  try {
+    const userId = req.user;
+    const complete = req.complete;
+    const todayTodos = await pool.query('SELECT * FROM todo WHERE user_id = $1, complete = $2, due = CURRENT_DATE', [userId, complete]);
+    res.json(todayTodos.rows);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 
 module.exports = router;

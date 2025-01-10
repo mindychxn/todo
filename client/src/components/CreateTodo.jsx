@@ -4,6 +4,7 @@ import GlassCard from './GlassCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { createTodo } from '../api/api';
 
 export default function CreateTodo({ open, onClose }) {
   const [description, setDescription] = useState('');
@@ -11,23 +12,14 @@ export default function CreateTodo({ open, onClose }) {
   const onCancel = () => {
     setDescription('');
     setDue();
-    onClose();
+    onClose(false);
   };
-  const onCreate = async (e) => {
-    //e.preventDefault();
+  const onCreate = async () => {
     try {
-      const jwt = localStorage.getItem('token');
-      console.log(jwt);
-      const body = { description, due };
-      console.log(body);
-      const response = await fetch(`http://localhost:3000/todos/create`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'token': jwt },
-        body: JSON.stringify(body),
-      });
+      await createTodo(description, due);
       setDescription('');
       setDue();
-      onClose();
+      onClose(true);
     } catch (err) {
       console.error(err);
     }
@@ -41,7 +33,7 @@ export default function CreateTodo({ open, onClose }) {
           <span className="text-xs text-gray-600">Task Description</span>
           <input
             id="task-description"
-            className="mt-1 w-full rounded-lg px-3.5 py-[16px] bg-white border-2 border-[#EFEFEF]"
+            className="mt-1 w-full rounded-lg px-3.5 py-[16px] bg-white border-2 border-[#EFEFEF] focus-visible:outline-[#0078d7]"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g. Go grocery shopping"
@@ -64,14 +56,14 @@ export default function CreateTodo({ open, onClose }) {
                     borderColor: '#EFEFEF'
                   },
                   '&:focus-within fieldset': {
-                    borderColor: '#9FD1F6'
+                    borderColor: '#0078d7'
                   },
                   borderRadius: '8px',
                   fontFamily: 'Poppins',
                 },
                 '& .MuiOutlinedInput-root.Mui-focused': {
                   '& fieldset': {
-                    borderColor: '#9FD1F6'
+                    borderColor: '#0078d7'
                   },
                 }
               }}
@@ -79,8 +71,8 @@ export default function CreateTodo({ open, onClose }) {
           </LocalizationProvider>
         </label>
         <span className="w-full flex justify-between">
-          <button onClick={() => onCancel()}>Cancel</button>
-          <button onClick={(e) => onCreate(e)}>Add</button>
+          <button className="text-gray-500 hover:scale-105 transition ease-in-out duration-300 hover:text-charcoal" onClick={() => onCancel()}>Cancel</button>
+          <button className="bg-babyBlue px-4 py-2 rounded-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkBlue text-charcoal" onClick={onCreate}>Add</button>
         </span>
       </GlassCard>
     </Modal>
