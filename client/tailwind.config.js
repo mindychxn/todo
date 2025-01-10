@@ -6,12 +6,17 @@ export default {
       sans: ['Poppins', 'sans-serif'],
     },
     extend: {
+      backgroundImage: {
+        gradient1: "url('/src/assets/Frame1.svg')",
+        gradient2:"url('/src/assets/Frame2.svg')"
+      },
       colors: {
         babyPink: '#FFD2D8',
         darkPink: '#ffb8c1',
         babyBlue: '#BBE2FF',
         babyPurple: '#D4B2FF',
-        charcoal: '#405064'
+        charcoal: '#405064',
+        cream: '#FDF7F0',
       },
       dropShadow: {
         pop: ['-5px -5px 3px #ffffff', '5px 5px 3px #c3c3c9'],
