@@ -6,23 +6,31 @@ import { API_URL } from '../api/api';
 export default function Login({ authenticate }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const body = { username, password };
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (res.ok) {
+    setError('');
+    
+    try {
+      const body = { username, password };
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      
       const parseRes = await res.json();
-      localStorage.setItem('token', parseRes.token);
-      setError(false);
-      authenticate(true);
-    } else {
-      setError(true);
+      
+      if (res.ok) {
+        localStorage.setItem('token', parseRes.token);
+        authenticate(true);
+      } else {
+        setError(parseRes.error || 'Invalid username or password');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong. Please try again.');
     }
   };
 
@@ -38,6 +46,11 @@ export default function Login({ authenticate }) {
               Welcome back! You’re just one step away from accomplishing your goals.
             </div>
           </div>
+          {error && (
+            <div className="w-full text-red-500 text-sm text-center bg-red-50 py-2 px-4 rounded-lg">
+              {error}
+            </div>
+          )}
           <input
             type="text"
             name="username"

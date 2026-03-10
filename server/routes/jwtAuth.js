@@ -11,12 +11,16 @@ router.post('/register', validInfo, async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // check if user already exists using email (if they already exist send error)
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    // check if email already exists
+    const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (emailCheck.rows.length !== 0) {
+      return res.status(400).json({ error: 'Email already in use' });
+    }
 
-    if (user.rows.length !== 0) {
-      // if user already exists
-      return res.status(401).send('User with that email already exists');
+    // check if username already exists
+    const usernameCheck = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (usernameCheck.rows.length !== 0) {
+      return res.status(400).json({ error: 'Username already taken' });
     }
 
     // bcrypt user password
@@ -53,14 +57,13 @@ router.post('/login', validInfo, async (req, res) => {
 
     const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
     if (user.rows.length === 0) {
-      return res.status(401).json('Password or Username is incorrect');
+      return res.status(401).json({ error: 'Invalid username or password' });
     }
-    // check if incoming password is correct
 
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (!validPassword) {
-      return res.status(401).json('Password or Username is incorrect');
+      return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // generate jwt token if login is successful
