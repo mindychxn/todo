@@ -1,7 +1,9 @@
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export const getTodos = async (complete) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:3000/todos?complete=${complete}`, {
+    const response = await fetch(`${API_URL}/todos?complete=${complete}`, {
       method: 'GET',
       headers: {
         'token': token,
@@ -17,7 +19,7 @@ export const getTodos = async (complete) => {
 
 export const deleteTodo = async (id) => {
   try {
-    const deleteTodo = await fetch(`http://localhost:3000/todos/${id}`, { method: 'DELETE' });
+    const deleteTodo = await fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' });
   } catch (err) {
     console.error(err);
   }
@@ -27,7 +29,7 @@ export const createTodo = async (description, due) => {
   try {
     const jwt = localStorage.getItem('token');
     const body = { description, due };
-    const response = await fetch(`http://localhost:3000/todos/create`, {
+    const response = await fetch(`${API_URL}/todos/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'token': jwt },
       body: JSON.stringify(body),
@@ -40,7 +42,7 @@ export const createTodo = async (description, due) => {
 export const editTodo = async (id, description, due, complete) => {
   try {
     const body = { description, due, complete };
-    const response = await fetch(`http://localhost:3000/todos/${id}`, {
+    const response = await fetch(`${API_URL}/todos/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -55,7 +57,7 @@ export const getToday = async (completed) => {
     console.log("getting")
     const body = { completed };
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:3000/todos/today-ya', {
+    const response = await fetch(`${API_URL}/todos/today-ya`, {
       method: 'GET',
       headers: {
         'token': token,

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import GlassCard from './GlassCard';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../api/api';
 
 export default function Registration({ authenticate }) {
   // TODO: check if email/username already exists in users table before creating new user
@@ -12,7 +13,7 @@ export default function Registration({ authenticate }) {
     e.preventDefault();
     try {
       const body = { username, email, password };
-      const res = await fetch('http://localhost:3000/auth/register', {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

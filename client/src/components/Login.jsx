@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import GlassCard from './GlassCard';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../api/api';
 
 export default function Login({ authenticate }) {
   const [username, setUsername] = useState('');
@@ -10,7 +11,7 @@ export default function Login({ authenticate }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     const body = { username, password };
-    const res = await fetch('http://localhost:3000/auth/login', {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

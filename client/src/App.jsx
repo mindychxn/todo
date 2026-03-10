@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Landing from './components/Landing';
+import { API_URL } from './api/api';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,7 +13,7 @@ export default function App() {
   useEffect(() => {
     const isPrevAuthed = async () => {
       try {
-        const res = await fetch('http://localhost:3000/auth/verify', {
+        const res = await fetch(`${API_URL}/auth/verify`, {
           method: 'POST',
           headers: { token: localStorage.token },
         });

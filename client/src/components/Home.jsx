@@ -2,7 +2,7 @@ import TodoList from './TodoList';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CreateTodo from './CreateTodo';
-import { getTodos, deleteTodo } from '../api/api';
+import { getTodos, deleteTodo, API_URL } from '../api/api';
 import dayjs from 'dayjs';
 
 
@@ -55,7 +55,7 @@ export default function Home() {
 
   const getName = async () => {
     try {
-      const res = await fetch('http://localhost:3000/dashboard/', {
+      const res = await fetch(`${API_URL}/dashboard/`, {
         method: 'GET',
         headers: { token: localStorage.token },
       });
