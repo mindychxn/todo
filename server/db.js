@@ -2,10 +2,8 @@ const pg = require('pg');
 const { Pool } = pg;
 
 const pool = new Pool({
-  user: 'todo_user',
-  password: 'password',
-  host: 'localhost',
-  database: 'perntodo',
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 module.exports = pool;
