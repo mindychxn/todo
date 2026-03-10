@@ -21,7 +21,7 @@ export default function Dashboard({  authenticate }) {
         />
         <Route 
           exact
-          path="/dashboard/today"
+          path="/dashboard/completed"
           component={Completed}
         />
         <Redirect from="/dashboard" to="/dashboard/home" />

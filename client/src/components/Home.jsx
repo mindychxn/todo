@@ -2,7 +2,7 @@ import TodoList from './TodoList';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CreateTodo from './CreateTodo';
-import { getTodos, deleteTodo, API_URL } from '../api/api';
+import { getTodos, deleteTodo, getUsername } from '../api/api';
 import dayjs from 'dayjs';
 
 
@@ -54,17 +54,8 @@ export default function Home() {
   }
 
   const getName = async () => {
-    try {
-      const res = await fetch(`${API_URL}/dashboard/`, {
-        method: 'GET',
-        headers: { token: localStorage.token },
-      });
-
-      const parseRes = await res.json();
-      setUsername(parseRes.username);
-    } catch (error) {
-      console.error(error.message);
-    }
+    const name = await getUsername();
+    setUsername(name);
   };
 
   const onCreateModalClose = async(added) => {
@@ -117,7 +108,7 @@ export default function Home() {
             New Task
           </button>
         </div>
-        <CreateTodo open={openCreate} onClose={ onCreateModalClose} />
+        <CreateTodo open={openCreate} onClose={onCreateModalClose} />
         <div className="opacity-70">Today is {date}.</div>
         <div className="w-full grid grid-cols-3 gap-2">
           <div className="rounded-lg p-3 flex flex-col justify-center items-center bg-babyBlue">

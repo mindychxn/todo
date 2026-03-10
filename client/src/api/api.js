@@ -1,73 +1,94 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+// for redirecting to login page if session expired
+const authFetch = async (url, options = {}) => {
+  const token = localStorage.getItem('token');
+  
+  const config = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      'token': token,
+      ...options.headers,
+    },
+  };
+
+  const response = await fetch(url, config);
+
+  if (response.status === 401 || response.status === 403) {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+    throw new Error('Session expired');
+  }
+
+  return response;
+};
+
 export const getTodos = async (complete) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/todos?complete=${complete}`, {
-      method: 'GET',
-      headers: {
-        'token': token,
-        'Content-Type': 'application/json'      
-      },
-    });
-    const jsonData = await response.json(); // parse
-    return jsonData;
+    const response = await authFetch(`${API_URL}/todos?complete=${complete}`);
+    return await response.json();
   } catch (err) {
     console.error(err);
+    return [];
   }
 };
 
 export const deleteTodo = async (id) => {
   try {
-    const deleteTodo = await fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' });
+    const response = await authFetch(`${API_URL}/todos/${id}`, {
+      method: 'DELETE',
+    });
+    return response.ok;
   } catch (err) {
     console.error(err);
+    return false;
   }
 };
 
 export const createTodo = async (description, due) => {
   try {
-    const jwt = localStorage.getItem('token');
-    const body = { description, due };
-    const response = await fetch(`${API_URL}/todos/create`, {
+    const response = await authFetch(`${API_URL}/todos/create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'token': jwt },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ description, due }),
     });
+    return response.ok;
   } catch (err) {
     console.error(err);
+    return false;
   }
 };
 
 export const editTodo = async (id, description, due, complete) => {
   try {
-    const body = { description, due, complete };
-    const response = await fetch(`${API_URL}/todos/${id}`, {
+    const response = await authFetch(`${API_URL}/todos/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ description, due, complete }),
     });
+    return response.ok;
   } catch (err) {
     console.error(err);
+    return false;
   }
 };
 
-export const getToday = async (completed) => {
+export const getToday = async (complete) => {
   try {
-    console.log("getting")
-    const body = { completed };
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/todos/today-ya`, {
-      method: 'GET',
-      headers: {
-        'token': token,
-        'Content-Type': 'application/json',
-        body: JSON.stringify(body),
-      },
-    });
-    const jsonData = await response.json();
-    return jsonData;
+    const response = await authFetch(`${API_URL}/todos/today?complete=${complete}`);
+    return await response.json();
   } catch (err) {
     console.error(err);
+    return [];
+  }
+};
+
+export const getUsername = async () => {
+  try {
+    const response = await authFetch(`${API_URL}/dashboard/`);
+    const data = await response.json();
+    return data.username;
+  } catch (err) {
+    console.error(err);
+    return '';
   }
 };
