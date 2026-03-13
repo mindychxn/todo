@@ -11,7 +11,7 @@ export default function TodoList({todos, onDelete, onEdit}) {
   }
 
   return (
-    <GlassCard className="w-full flex-col gap-4 p-10 rounded-lg">
+    <GlassCard className="w-full flex-col flex-1 gap-4 p-10 rounded-lg">
       <div className="font-medium text-xl">All Tasks</div>
       {todos.length > 0 ? todos.map((todo) => (
         <div

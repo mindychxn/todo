@@ -1,4 +1,5 @@
 import TodoList from '../components/todos/TodoList';
+import StatusRow from '../components/common/StatusRow';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CreateTodo from '../components/todos/CreateTodo';
@@ -11,19 +12,19 @@ export default function Home() {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [openCreate, setOpenCreate] = useState(false);
   const [todos, setTodos] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const todayCount = todos.filter(t => dayjs(t.due).isSame(dayjs(), 'day')).length;
-  const [completeTasks, setCompleteTasks] = useState([]);
+  const overdueCount = todos.filter(t => dayjs(t.due).isBefore(dayjs(), 'day')).length;
 
   useEffect(() => {
     const loadTodos = async () => {
       try {
-        const todoData = await getTodos(false); 
-        setTodos(todoData); // Set the todos state with the fetched data
-        const completedData = await getTodos(true);
-        setCompleteTasks(completedData);
-        // const today = await getToday();
-        // console.log(today)
-        //setTotalTasksToday(today);
+        const [todoData, completedData] = await Promise.all([
+          getTodos(false),
+          getTodos(true)
+        ]);
+        setTodos(todoData);
+        setCompletedTasks(completedData);
       } catch (error) {
         console.error('Failed to load todos:', error);
       }
@@ -42,12 +43,14 @@ export default function Home() {
     }
   }
 
-  const onEdit = async (id) => {
+  const onEdit = async () => {
     try {
-      const todoData = await getTodos(false);
-      setTodos(todoData); 
-      const completedData = await getTodos(true);
-      setCompleteTasks(completedData);
+      const [todoData, completedData] = await Promise.all([
+        getTodos(false),
+        getTodos(true)
+      ]);
+      setTodos(todoData);
+      setCompletedTasks(completedData);
     } catch (error) {
       console.error(error);
     }
@@ -90,14 +93,17 @@ export default function Home() {
   });
 
   return (
-    <div className="flex w-full min-h-screen">
-      <div className="flex flex-col gap-4 md:gap-6 w-full text-charcoal py-4 px-4 md:py-7 md:px-14">
-        <div className="flex flex-col md:flex-row justify-between w-full gap-3">
-          <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
-            <span className="whitespace-nowrap">{greeting},</span>
-            <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
-              {username.charAt(0).toUpperCase() + username.slice(1)}.
-            </span>
+    <div className="flex w-full h-full min-h-screen">
+      <div className="flex flex-col gap-4 md:gap-6 w-full h-full text-charcoal py-4 px-4 md:py-7 md:px-14">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start w-full gap-3">
+          <div className="flex flex-col">
+            <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
+              <span className="whitespace-nowrap">{greeting},</span>
+              <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
+                {username.charAt(0).toUpperCase() + username.slice(1)}.
+              </span>
+            </div>
+            <div className="opacity-70 mt-1">Today is {date}.</div>
           </div>
           <button
             onClick={() => setOpenCreate(true)}
@@ -108,30 +114,12 @@ export default function Home() {
           </button>
         </div>
         <CreateTodo open={openCreate} onClose={onCreateModalClose} />
-        <div className="opacity-70">Today is {date}.</div>
-        <div className="w-full grid grid-cols-3 gap-2 text-sm md:text-base">
-          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyBlue text-center">
-            <span className="hidden md:inline">You have</span>
-            <div className="text-2xl md:text-3xl font-semibold">
-              {todayCount}
-            </div>  
-            <span className="text-xs md:text-base">tasks today</span>
-          </div>
-          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyPurple text-center">
-            <span className="hidden md:inline">You have</span>
-            <div className="text-2xl md:text-3xl font-semibold">
-              {todos.length}
-            </div> 
-            <span className="text-xs md:text-base">tasks left</span>
-          </div>
-          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyPink text-center">
-            <span className="hidden md:inline">Completed</span>
-            <div className="text-2xl md:text-3xl font-semibold">
-              {completeTasks.length}
-            </div> 
-            <span className="text-xs md:text-base">tasks</span>
-          </div>
-        </div>
+        <StatusRow 
+          overdueCount={overdueCount}
+          todayCount={todayCount}
+          incompleteCount={todos.length}
+          completedCount={completedTasks.length}
+        />
         <TodoList todos={todos} onDelete={onDelete} onEdit={onEdit} />
       </div>
     </div>
