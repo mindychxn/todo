@@ -1,7 +1,7 @@
 import './landing.css';
-import logo from '../assets/logo.svg';
 import { Link } from 'react-router-dom';
-import GlassCard from './GlassCard';
+import GlassCard from '../components/GlassCard';
+import Logo from '../components/Logo';
 
 export default function Landing() {
   const grinchTodos = [
@@ -14,11 +14,9 @@ export default function Landing() {
   ];
   return (
     <div className="landing-page w-screen h-screen flex justify-center items-center gap-10 py-10 text-charcoal px-20 min-w-min">
-      <div className="w-full flex items-center fixed top-0 py-5 px-10">
-        <div className="w-1/3">
-          <img src={logo} className="h-[52px] aspect-square pb-2" />
-        </div>
-        <div className="w-1/3 font-bold text-4xl text-center">Taskify.</div>
+      <div className="w-full flex items-center justify-center fixed top-0 py-5 px-10">
+        <div className="w-1/3" />
+        <Logo size="lg" className="w-1/3 justify-center" />
         <div className="flex justify-end gap-3 text-lg w-1/3">
           <Link to={'/login'}>
             <button className="font-medium py-2 px-4 transition ease-in-out duration-200 hover:scale-105">

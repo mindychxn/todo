@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
-import Login from './components/Login';
-import Registration from './components/Registration';
-import Landing from './components/Landing';
+import Login from './pages/Login';
+import Registration from './pages/Registration';
+import Landing from './pages/Landing';
 import { API_URL } from './api/api';
 
 export default function App() {

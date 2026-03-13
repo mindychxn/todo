@@ -1,7 +1,7 @@
-import TodoList from './TodoList';
+import TodoList from '../components/TodoList';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import CreateTodo from './CreateTodo';
+import CreateTodo from '../components/CreateTodo';
 import { getTodos, deleteTodo, getUsername } from '../api/api';
 import dayjs from 'dayjs';
 
@@ -93,8 +93,8 @@ export default function Home() {
     <div className="flex w-full min-h-screen">
       <div className="flex flex-col gap-4 md:gap-6 w-full text-charcoal py-4 px-4 md:py-7 md:px-14">
         <div className="flex flex-col md:flex-row justify-between w-full gap-3">
-          <div className="font-semibold text-2xl md:text-3xl">
-            {greeting},
+          <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
+            <span className="whitespace-nowrap">{greeting},</span>
             <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
               {username.charAt(0).toUpperCase() + username.slice(1)}.
             </span>

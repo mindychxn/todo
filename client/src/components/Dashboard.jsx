@@ -1,8 +1,8 @@
-import Home from './Home';
+import Home from '../pages/Home';
 import Nav from './Nav';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Today from './Today';
-import Completed from './Completed';
+import Today from '../pages/Today';
+import Completed from '../pages/Completed';
 
 export default function Dashboard({ authenticate }) {
   return (
