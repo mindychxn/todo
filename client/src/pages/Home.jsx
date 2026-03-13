@@ -98,8 +98,11 @@ export default function Home() {
           <div className="flex flex-col">
             <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
               <span className="whitespace-nowrap">{greeting},</span>
-              <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
-                {username ? username.charAt(0).toUpperCase() + username.slice(1) : ''}.
+              <span className="ml-2 relative inline-block italic">
+                <span className="absolute w-full h-1/2 bg-white opacity-80 bottom-[2px] left-0 z-0" />
+                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
+                  {username}.
+                </span>
               </span>
             </div>
             <div className="opacity-70 mt-1">Today is {date}.</div>

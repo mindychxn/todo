@@ -114,7 +114,7 @@ export default function Completed() {
                 {message.text}{' '}
                 <span className="relative inline-block italic">
                   <span className="absolute w-full h-1/2 bg-white opacity-80 bottom-[2px] left-0 z-0" />
-                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
+                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue text-[1.75rem] md:text-[2.125rem]">
                     {message.highlight}
                   </span>
                 </span>
