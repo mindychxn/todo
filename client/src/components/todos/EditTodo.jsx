@@ -1,4 +1,4 @@
-import { Modal, Checkbox, FormControlLabel } from '@mui/material';
+import { Modal, Switch } from '@mui/material';
 import { useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import GlassCard from '../common/GlassCard';
@@ -40,7 +40,7 @@ export default function EditTodo({ todo, onEdit }) {
         <CreateIcon />
       </button>
       <Modal open={open} onClose={() => setOpen(false)}>
-      <GlassCard className="flex-col gap-6 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 justify-center w-1/2 p-6 !bg-white rounded-lg">
+      <GlassCard className="flex-col gap-6 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 justify-center w-1/2 px-8 py-10 !bg-white rounded-lg">
         <div className="font-semibold text-2xl">Edit Task</div>
         <label htmlFor="task-title" className="w-full">
           <span className="text-xs text-gray-600">Title</span>
@@ -117,22 +117,28 @@ export default function EditTodo({ todo, onEdit }) {
             />
           </label>
           <div className="w-full">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={remindMe}
-                  onChange={(e) => setRemindMe(e.target.checked)}
-                  sx={{ '&.Mui-checked': { color: '#405064' } }}
-                />
-              }
-              label={<span className="text-sm">Remind me</span>}
-            />
+            <div className="flex items-center justify-between">
+              <span className="text-sm">Remind me</span>
+              <Switch
+                checked={remindMe}
+                onChange={(e) => setRemindMe(e.target.checked)}
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': {
+                    color: '#405064',
+                  },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                    backgroundColor: '#405064',
+                  },
+                }}
+              />
+            </div>
             {remindMe && (
               <DateTimePicker
                 value={remindAt}
                 onChange={setRemindAt}
                 sx={{
                   width: '100%',
+                  mt: 1,
                   '& .MuiOutlinedInput-root' : {
                     '& fieldset': {
                       borderColor: '#EFEFEF',
@@ -157,10 +163,10 @@ export default function EditTodo({ todo, onEdit }) {
             )}
           </div>
         </LocalizationProvider>
-        <span className="w-full flex justify-between">
-          <button className="text-gray-500 hover:scale-105 transition ease-in-out duration-300 hover:text-charcoal" onClick={onCancel}>Cancel</button>
-          <button className="bg-babyPurple px-4 py-2 rounded-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPurple text-charcoal" onClick={onSave}>Save</button>
-        </span>
+        <div className="w-full flex justify-end gap-4 pt-2">
+          <button className="text-gray-500 hover:scale-105 transition ease-in-out duration-300 hover:text-charcoal px-4 py-2" onClick={onCancel}>Cancel</button>
+          <button className="bg-babyPurple px-8 py-2.5 rounded-lg hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPurple text-charcoal font-medium" onClick={onSave}>Save Changes</button>
+        </div>
       </GlassCard>
     </Modal>
     </div>
