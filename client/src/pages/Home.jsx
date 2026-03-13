@@ -1,7 +1,7 @@
-import TodoList from '../components/TodoList';
+import TodoList from '../components/todos/TodoList';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import CreateTodo from '../components/CreateTodo';
+import CreateTodo from '../components/todos/CreateTodo';
 import { getTodos, deleteTodo, getUsername } from '../api/api';
 import dayjs from 'dayjs';
 

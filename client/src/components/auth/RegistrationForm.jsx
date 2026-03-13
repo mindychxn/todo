@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import GlassCard from './GlassCard';
+import GlassCard from '../common/GlassCard';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../api/api';
+import { API_URL } from '../../api/api';
 
 export default function RegistrationForm({ onSuccess }) {
   const [username, setUsername] = useState('');

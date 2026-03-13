@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
+import DashboardLayout from './layouts/DashboardLayout';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Landing from './pages/Landing';
@@ -74,7 +74,7 @@ export default function App() {
               path="/dashboard/*"
               render={(props) =>
                 isAuthenticated ? (
-                  <Dashboard {...props} authenticate={setAuth} />
+                  <DashboardLayout {...props} authenticate={setAuth} />
                 ) : (
                   <Redirect to="/login" />
                 )

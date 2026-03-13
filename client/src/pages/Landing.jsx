@@ -1,7 +1,7 @@
 import './landing.css';
 import { Link } from 'react-router-dom';
-import GlassCard from '../components/GlassCard';
-import Logo from '../components/Logo';
+import GlassCard from '../components/common/GlassCard';
+import Logo from '../components/common/Logo';
 
 export default function Landing() {
   const grinchTodos = [

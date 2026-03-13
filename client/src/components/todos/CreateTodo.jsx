@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Modal } from '@mui/material';
-import GlassCard from './GlassCard';
+import GlassCard from '../common/GlassCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { createTodo } from '../api/api';
+import { createTodo } from '../../api/api';
 
 export default function CreateTodo({ open, onClose }) {
   const [description, setDescription] = useState('');

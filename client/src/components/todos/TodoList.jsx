@@ -1,7 +1,7 @@
 import EditTodo from './EditTodo';
-import GlassCard from './GlassCard';
+import GlassCard from '../common/GlassCard';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { editTodo } from '../api/api';
+import { editTodo } from '../../api/api';
 
 export default function TodoList({todos, onDelete, onEdit}) {
 

@@ -1,10 +1,10 @@
 import Home from '../pages/Home';
-import Nav from './Nav';
+import Nav from '../components/common/Nav';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Today from '../pages/Today';
 import Completed from '../pages/Completed';
 
-export default function Dashboard({ authenticate }) {
+export default function DashboardLayout({ authenticate }) {
   return (
     <div className="flex flex-col md:flex-row bg-gradient1 bg-cover min-h-screen">
       <Nav authenticate={authenticate} />

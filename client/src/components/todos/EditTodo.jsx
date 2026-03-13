@@ -1,12 +1,12 @@
 import { Modal } from '@mui/material';
 import { useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
-import GlassCard from './GlassCard';
+import GlassCard from '../common/GlassCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { editTodo } from '../api/api';
+import { editTodo } from '../../api/api';
 
 export default function EditTodo({ todo, onEdit }) {
   const [open, setOpen] = useState(false);
