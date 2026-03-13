@@ -2,11 +2,14 @@ import { useState } from 'react';
 import GlassCard from '../common/GlassCard';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../api/api';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function RegistrationForm({ onSuccess }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: '', username: '', password: '', general: '' });
 
   const validateForm = () => {
@@ -136,14 +139,23 @@ export default function RegistrationForm({ onSuccess }) {
           )}
         </div>
         <div className="w-full">
-          <input
-            type="password"
-            placeholder="Password"
-            className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg ${errors.password && 'ring-2 ring-red-300'}`}
-            name="password"
-            value={password}
-            onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: '' })); }}
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 pr-12 rounded-lg ${errors.password && 'ring-2 ring-red-300'}`}
+              name="password"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: '' })); }}
+            />
+            <button
+              type="button"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal transition"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </button>
+          </div>
           {errors.password ? (
             <p className="text-xs text-red-500 mt-1">{errors.password}</p>
           ) : (

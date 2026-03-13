@@ -2,10 +2,13 @@ import { useState } from 'react';
 import GlassCard from '../common/GlassCard';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../api/api';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function LoginForm({ onSuccess }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
@@ -61,15 +64,24 @@ export default function LoginForm({ onSuccess }) {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 rounded-lg ${error && 'ring-2 ring-red-300'}`}
-          required
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="relative w-full">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            className={`focus:outline-none focus:ring-2 transition text-charcoal w-full px-6 py-4 pr-12 rounded-lg ${error && 'ring-2 ring-red-300'}`}
+            required
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal transition"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </button>
+        </div>
         <button
           type="submit"
           className="mt-2 w-fit py-2.5 px-6 bg-babyPink rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkPink text-charcoal"
