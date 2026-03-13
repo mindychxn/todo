@@ -46,11 +46,11 @@ export const deleteTodo = async (id) => {
   }
 };
 
-export const createTodo = async (description, due) => {
+export const createTodo = async (title, notes, due, priority, remind_at) => {
   try {
     const response = await authFetch(`${API_URL}/todos/create`, {
       method: 'POST',
-      body: JSON.stringify({ description, due }),
+      body: JSON.stringify({ title, notes, due, priority, remind_at }),
     });
     return response.ok;
   } catch (err) {
@@ -59,11 +59,11 @@ export const createTodo = async (description, due) => {
   }
 };
 
-export const editTodo = async (id, description, due, complete) => {
+export const editTodo = async (id, title, notes, due, priority, remind_at, complete) => {
   try {
     const response = await authFetch(`${API_URL}/todos/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ description, due, complete }),
+      body: JSON.stringify({ title, notes, due, priority, remind_at, complete }),
     });
     return response.ok;
   } catch (err) {

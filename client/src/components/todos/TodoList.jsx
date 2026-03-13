@@ -6,7 +6,7 @@ import { editTodo } from '../../api/api';
 export default function TodoList({todos, onDelete, onEdit}) {
 
   const onComplete = async(todo) => {
-    await editTodo(todo.todo_id, todo.description, todo.due, true);
+    await editTodo(todo.todo_id, todo.title, todo.notes, todo.due, todo.priority, todo.remind_at, true);
     onEdit();
   }
 
@@ -31,9 +31,10 @@ export default function TodoList({todos, onDelete, onEdit}) {
                   day: 'numeric'
                 })}
               </div>
-              <div>
-              {todo.description}
-              </div>
+              <div className="font-medium">{todo.title}</div>
+              {todo.notes && (
+                <div className="text-sm text-gray-500 mt-1">{todo.notes}</div>
+              )}
             </div>
           </label>
           <div className="flex gap-2 items-center">

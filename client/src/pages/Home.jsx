@@ -13,8 +13,8 @@ export default function Home() {
   const [openCreate, setOpenCreate] = useState(false);
   const [todos, setTodos] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
-  const todayCount = todos.filter(t => dayjs(t.due).isSame(dayjs(), 'day')).length;
-  const overdueCount = todos.filter(t => dayjs(t.due).isBefore(dayjs(), 'day')).length;
+  const todayCount = Array.isArray(todos) ? todos.filter(t => dayjs(t.due).isSame(dayjs(), 'day')).length : 0;
+  const overdueCount = Array.isArray(todos) ? todos.filter(t => dayjs(t.due).isBefore(dayjs(), 'day')).length : 0;
 
   useEffect(() => {
     const loadTodos = async () => {
@@ -23,8 +23,8 @@ export default function Home() {
           getTodos(false),
           getTodos(true)
         ]);
-        setTodos(todoData);
-        setCompletedTasks(completedData);
+        setTodos(Array.isArray(todoData) ? todoData : []);
+        setCompletedTasks(Array.isArray(completedData) ? completedData : []);
       } catch (error) {
         console.error('Failed to load todos:', error);
       }
@@ -37,7 +37,7 @@ export default function Home() {
     try {
       await deleteTodo(id);
       const todoData = await getTodos(false);
-      setTodos(todoData); 
+      setTodos(Array.isArray(todoData) ? todoData : []); 
     } catch (error) {
       console.error(error);
     }
@@ -49,8 +49,8 @@ export default function Home() {
         getTodos(false),
         getTodos(true)
       ]);
-      setTodos(todoData);
-      setCompletedTasks(completedData);
+      setTodos(Array.isArray(todoData) ? todoData : []);
+      setCompletedTasks(Array.isArray(completedData) ? completedData : []);
     } catch (error) {
       console.error(error);
     }
@@ -63,9 +63,8 @@ export default function Home() {
 
   const onCreateModalClose = async(added) => {
     if (added) {
-      // refetch to get updated list
       const todoData = await getTodos(false);
-      setTodos(todoData);
+      setTodos(Array.isArray(todoData) ? todoData : []);
     }
     setOpenCreate(false);
   }
@@ -100,7 +99,7 @@ export default function Home() {
             <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
               <span className="whitespace-nowrap">{greeting},</span>
               <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
-                {username.charAt(0).toUpperCase() + username.slice(1)}.
+                {username ? username.charAt(0).toUpperCase() + username.slice(1) : ''}.
               </span>
             </div>
             <div className="opacity-70 mt-1">Today is {date}.</div>
