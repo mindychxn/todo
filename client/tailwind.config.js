@@ -17,6 +17,7 @@ export default {
         darkBlue: '#9BD5FF',
         babyPurple: '#E1CBFA',
         darkPurple: '#D0A5FF',
+        babyOrange: '#FFDAB7',
         charcoal: '#405064',
         cream: '#FDF7F0',
       },
