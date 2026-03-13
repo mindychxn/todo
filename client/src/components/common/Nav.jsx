@@ -56,7 +56,7 @@ export default function Nav() {
           >
             <FontAwesomeIcon icon={faCircleCheck} className="text-lg w-5 flex-shrink-0" />
             <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              Done
+              Complete
             </span>
           </Link>
           <Link 
@@ -82,42 +82,42 @@ export default function Nav() {
 
       {/* Mobile Bottom Nav*/}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-10">
-        <GlassCard className="w-full justify-evenly items-center py-2 rounded-none">
+        <GlassCard className="w-full items-center py-2 rounded-none gap-2 px-2">
           <Link 
             to="/dashboard/home" 
-            className={`flex flex-col items-center py-1.5 px-3 rounded-lg transition duration-300 gap-0.5 ${
+            className={`flex-1 flex flex-col items-center py-1.5 rounded-lg transition duration-300 gap-0.5 ${
               isActive('/dashboard/home') ? 'bg-babyPurple/50' : ''
             }`}
           >
-            <FontAwesomeIcon icon={faHouse} className="text-lg w-5 text-charcoal" />
-            <span className="text-[10px] text-charcoal">Home</span>
+            <FontAwesomeIcon icon={faHouse} className="text-lg w-5" />
+            <span className="text-[10px]">Home</span>
           </Link>
           <Link 
             to="/dashboard/today" 
-            className={`flex flex-col items-center py-1.5 px-3 rounded-lg transition duration-300 gap-0.5 ${
+            className={`flex-1 flex flex-col items-center py-1.5 rounded-lg transition duration-300 gap-0.5 ${
               isActive('/dashboard/today') ? 'bg-babyPurple/50' : ''
             }`}
           >
-            <FontAwesomeIcon icon={faCalendarDay} className="text-lg w-5 text-charcoal" />
-            <span className="text-[10px] text-charcoal">Today</span>
+            <FontAwesomeIcon icon={faCalendarDay} className="text-lg w-5" />
+            <span className="text-[10px]">Today</span>
           </Link>
           <Link 
             to="/dashboard/completed" 
-            className={`flex flex-col items-center py-1.5 px-3 rounded-lg transition duration-300 gap-0.5 ${
+            className={`flex-1 flex flex-col items-center py-1.5 rounded-lg transition duration-300 gap-0.5 ${
               isActive('/dashboard/completed') ? 'bg-babyPurple/50' : ''
             }`}
           >
-            <FontAwesomeIcon icon={faCircleCheck} className="text-lg w-5 text-charcoal" />
-            <span className="text-[10px] text-charcoal">Done</span>
+            <FontAwesomeIcon icon={faCircleCheck} className="text-lg w-5" />
+            <span className="text-[10px]">Complete</span>
           </Link>
           <Link 
             to="/dashboard/account" 
-            className={`flex flex-col items-center py-1.5 px-3 rounded-lg transition duration-300 gap-0.5 ${
+            className={`flex-1 flex flex-col items-center py-1.5 rounded-lg transition duration-300 gap-0.5 ${
               isActive('/dashboard/account') ? 'bg-babyPurple/50' : ''
             }`}
           >
-            <FontAwesomeIcon icon={faUser} className="text-lg w-5 text-charcoal" />
-            <span className="text-[10px] text-charcoal">Profile</span>
+            <FontAwesomeIcon icon={faUser} className="text-lg w-5" />
+            <span className="text-[10px]">Account</span>
           </Link>
         </GlassCard>
       </div>

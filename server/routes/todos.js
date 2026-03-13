@@ -24,7 +24,8 @@ router.get('/', authorization, async (req, res) => {
     const complete = req.query.complete === 'true';
     const query = complete
       ? 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NOT NULL ORDER BY completed_at DESC'
-      : 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL ORDER BY due ASC';
+      : `SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL 
+         ORDER BY CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END, due ASC`;
     const allTodos = await pool.query(query, [userId]);
     res.json(allTodos.rows);
   } catch (err) {
@@ -39,8 +40,9 @@ router.get('/today', authorization, async (req, res) => {
     const userId = req.user;
     const complete = req.query.complete === 'true';
     const query = complete
-      ? 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NOT NULL AND due = CURRENT_DATE'
-      : 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL AND due = CURRENT_DATE';
+      ? 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NOT NULL AND due = CURRENT_DATE ORDER BY completed_at DESC'
+      : `SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL AND due = CURRENT_DATE 
+         ORDER BY CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END`;
     const todayTodos = await pool.query(query, [userId]);
     res.json(todayTodos.rows);
   } catch (err) {
