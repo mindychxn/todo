@@ -90,19 +90,18 @@ export default function Home() {
   });
 
   return (
-    <div className="bg-gradient1 bg-cover flex w-screen h-screen">
-      <div className="flex flex-col gap-6 w-full text-charcoal py-7 px-14">
-        <div className="flex justify-between w-full">
-          <div className="font-semibold text-3xl ">
+    <div className="flex w-full min-h-screen">
+      <div className="flex flex-col gap-4 md:gap-6 w-full text-charcoal py-4 px-4 md:py-7 md:px-14">
+        <div className="flex flex-col md:flex-row justify-between w-full gap-3">
+          <div className="font-semibold text-2xl md:text-3xl">
             {greeting},
-            <span className="ml-2.5 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
+            <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
               {username.charAt(0).toUpperCase() + username.slice(1)}.
             </span>
           </div>
           <button
             onClick={() => setOpenCreate(true)}
-            className="flex items-center gap-2 w-fit py-2 pl-3 pr-4 bg-babyBlue rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkBlue
-            text-charcoal"
+            className="flex items-center justify-center gap-2 w-full md:w-fit py-2 pl-3 pr-4 bg-babyBlue rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkBlue text-charcoal"
           >
             <AddIcon />
             New Task
@@ -110,27 +109,27 @@ export default function Home() {
         </div>
         <CreateTodo open={openCreate} onClose={onCreateModalClose} />
         <div className="opacity-70">Today is {date}.</div>
-        <div className="w-full grid grid-cols-3 gap-2">
-          <div className="rounded-lg p-3 flex flex-col justify-center items-center bg-babyBlue">
-            You have
-            <div className=" text-3xl font-semibold">
+        <div className="w-full grid grid-cols-3 gap-2 text-sm md:text-base">
+          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyBlue text-center">
+            <span className="hidden md:inline">You have</span>
+            <div className="text-2xl md:text-3xl font-semibold">
               {todayCount}
             </div>  
-            tasks today
+            <span className="text-xs md:text-base">tasks today</span>
           </div>
-          <div className="justify-center rounded-lg p-3 flex flex-col text-center items-center bg-babyPurple">
-            You have 
-            <div className="text-3xl font-semibold">
+          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyPurple text-center">
+            <span className="hidden md:inline">You have</span>
+            <div className="text-2xl md:text-3xl font-semibold">
               {todos.length}
             </div> 
-            tasks left
+            <span className="text-xs md:text-base">tasks left</span>
           </div>
-          <div className="justify-center rounded-lg p-3 flex flex-col text-center items-center bg-babyPink">
-            You have completed 
-            <div className="text-3xl font-semibold">
+          <div className="rounded-lg p-2 md:p-3 flex flex-col justify-center items-center bg-babyPink text-center">
+            <span className="hidden md:inline">Completed</span>
+            <div className="text-2xl md:text-3xl font-semibold">
               {completeTasks.length}
             </div> 
-            tasks
+            <span className="text-xs md:text-base">tasks</span>
           </div>
         </div>
         <TodoList todos={todos} onDelete={onDelete} onEdit={onEdit} />

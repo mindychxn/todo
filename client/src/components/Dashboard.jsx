@@ -4,11 +4,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Today from './Today';
 import Completed from './Completed';
 
-export default function Dashboard({  authenticate }) {
+export default function Dashboard({ authenticate }) {
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row bg-gradient1 bg-cover min-h-screen">
       <Nav authenticate={authenticate} />
-      <Switch>
+      <div className="flex-1 pt-16 pb-20 md:pt-0 md:pb-0">
+        <Switch>
         <Route
           exact
           path="/dashboard/home"
@@ -25,7 +26,8 @@ export default function Dashboard({  authenticate }) {
           component={Completed}
         />
         <Redirect from="/dashboard" to="/dashboard/home" />
-      </Switch>
+        </Switch>
+      </div>
     </div>
   );
 }

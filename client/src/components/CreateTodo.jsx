@@ -27,7 +27,7 @@ export default function CreateTodo({ open, onClose }) {
 
   return (
     <Modal open={open} onClose={() => onClose(false)}>
-      <GlassCard className="flex-col gap-6 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 justify-center w-1/2 p-6 !bg-white">
+      <GlassCard className="flex-col gap-6 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 justify-center w-1/2 p-6 !bg-white rounded-lg">
         <div className="font-semibold text-2xl">Add a New Task</div>
         <label htmlFor="task-description" className="w-full">
           <span className="text-xs text-gray-600">Task Description</span>
