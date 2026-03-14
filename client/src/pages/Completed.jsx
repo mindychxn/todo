@@ -26,7 +26,7 @@ function CompletedItem({ todo, onDelete }) {
     <div className="flex flex-col w-full bg-white/60 py-4 px-6 rounded-lg gap-2">
       <div className="flex items-center gap-2">
         <span className="text-sm text-gray-400">
-          {new Date(todo.due).toLocaleString('en-US', {
+          {new Date(todo.due.split('T')[0] + 'T12:00:00').toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
