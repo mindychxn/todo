@@ -25,14 +25,16 @@ function CompletedItem({ todo, onDelete }) {
   return (
     <div className="flex flex-col w-full bg-white/60 py-4 px-6 rounded-lg gap-2">
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-400">
-          {new Date(todo.due.split('T')[0] + 'T12:00:00').toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </span>
+        {todo.due && (
+          <span className="text-sm text-gray-400">
+            {new Date(todo.due.split('T')[0] + 'T12:00:00').toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </span>
+        )}
         {todo.priority && (
           <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${
             todo.priority === 'high' 
