@@ -4,35 +4,46 @@ import GlassCard from '../common/GlassCard';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { editTodo } from '../../api/api';
 
 function TodoItem({ todo, onComplete, onDelete, onEdit }) {
   const [showNotes, setShowNotes] = useState(false);
+  
+  const isOverdue = todo.due && new Date(todo.due.split('T')[0]) < new Date(new Date().toLocaleDateString('en-CA'));
 
   return (
     <div className="flex flex-col w-full bg-white/60 py-4 px-6 rounded-lg gap-2">
-      <div className="flex items-center gap-2">
-        {todo.due && (
-          <span className="text-sm text-gray-400">
-            {new Date(todo.due.split('T')[0] + 'T12:00:00').toLocaleDateString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </span>
+      <div className="flex flex-col gap-1">
+        {isOverdue && (
+          <div className="flex items-center gap-1 text-red-600 text-xs font-medium">
+            <ErrorOutlineIcon fontSize="small" />
+            Overdue
+          </div>
         )}
-        {todo.priority && (
-          <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${
-            todo.priority === 'high' 
-              ? 'bg-red-100 text-red-600' 
-              : todo.priority === 'medium'
-              ? 'bg-yellow-100 text-yellow-600'
-              : 'bg-green-100 text-green-600'
-          }`}>
-            {todo.priority}
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {todo.due && (
+            <span className={`text-sm ${isOverdue ? 'text-red-400' : 'text-gray-400'}`}>
+              {new Date(todo.due.split('T')[0] + 'T12:00:00').toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </span>
+          )}
+          {todo.priority && (
+            <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${
+              todo.priority === 'high' 
+                ? 'bg-red-100 text-red-600' 
+                : todo.priority === 'medium'
+                ? 'bg-yellow-100 text-yellow-600'
+                : 'bg-green-100 text-green-600'
+            }`}>
+              {todo.priority}
+            </span>
+          )}
+        </div>
       </div>
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4 flex-1 min-w-0">
