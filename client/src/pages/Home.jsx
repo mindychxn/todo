@@ -1,5 +1,6 @@
 import TodoList from '../components/todos/TodoList';
 import StatusRow from '../components/common/StatusRow';
+import Loading from '../components/common/Loading';
 import { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CreateTodo from '../components/todos/CreateTodo';
@@ -13,6 +14,7 @@ export default function Home() {
   const [openCreate, setOpenCreate] = useState(false);
   const [todos, setTodos] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const todayCount = Array.isArray(todos) ? todos.filter(t => dayjs(t.due).isSame(dayjs(), 'day')).length : 0;
   const overdueCount = Array.isArray(todos) ? todos.filter(t => dayjs(t.due).isBefore(dayjs(), 'day')).length : 0;
 
@@ -27,6 +29,8 @@ export default function Home() {
         setCompletedTasks(Array.isArray(completedData) ? completedData : []);
       } catch (error) {
         console.error('Failed to load todos:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -94,35 +98,43 @@ export default function Home() {
   return (
     <div className="flex w-full h-full min-h-screen">
       <div className="flex flex-col gap-4 md:gap-6 w-full h-full text-charcoal py-4 px-4 md:py-7 md:px-14">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start w-full gap-3">
-          <div className="flex flex-col">
-            <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
-              <span className="whitespace-nowrap">{greeting},</span>
-              <span className="ml-2 relative inline-block italic">
-                <span className="absolute w-full h-1/2 bg-white opacity-80 bottom-[2px] left-0 z-0" />
-                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue">
-                  {username}.
-                </span>
-              </span>
-            </div>
-            <div className="opacity-70 mt-1">Today is {date}.</div>
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center">
+            <Loading size="lg" text="Loading..." />
           </div>
-          <button
-            onClick={() => setOpenCreate(true)}
-            className="flex items-center justify-center gap-2 w-full md:w-fit py-2 pl-3 pr-4 bg-babyBlue rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkBlue text-charcoal"
-          >
-            <AddIcon />
-            New Task
-          </button>
-        </div>
-        <CreateTodo open={openCreate} onClose={onCreateModalClose} />
-        <StatusRow 
-          overdueCount={overdueCount}
-          todayCount={todayCount}
-          incompleteCount={todos.length}
-          completedCount={completedTasks.length}
-        />
-        <TodoList todos={todos} onDelete={onDelete} onEdit={onEdit} />
+        ) : (
+          <>
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start w-full gap-3">
+              <div className="flex flex-col">
+                <div className="font-semibold text-2xl md:text-3xl flex flex-wrap items-baseline">
+                  <span className="whitespace-nowrap">{greeting},</span>
+                  <span className="ml-2 relative inline-block italic">
+                    <span className="absolute w-full h-1/2 bg-white opacity-80 bottom-[2px] left-0 z-0" />
+                    <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue text-[1.75rem] md:text-[2.125rem]">
+                      {username}.
+                    </span>
+                  </span>
+                </div>
+                <div className="opacity-70 mt-1">Today is {date}.</div>
+              </div>
+              <button
+                onClick={() => setOpenCreate(true)}
+                className="flex items-center justify-center gap-2 w-full md:w-fit py-2 pl-3 pr-4 bg-babyBlue rounded-lg text-md hover:scale-105 transition ease-in-out duration-300 hover:bg-darkBlue text-charcoal"
+              >
+                <AddIcon />
+                New Task
+              </button>
+            </div>
+            <CreateTodo open={openCreate} onClose={onCreateModalClose} />
+            <StatusRow 
+              overdueCount={overdueCount}
+              todayCount={todayCount}
+              incompleteCount={todos.length}
+              completedCount={completedTasks.length}
+            />
+            <TodoList todos={todos} onDelete={onDelete} onEdit={onEdit} />
+          </>
+        )}
       </div>
     </div>
   );

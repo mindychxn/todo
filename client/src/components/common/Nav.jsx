@@ -13,7 +13,7 @@ export default function Nav() {
     <>
       {/* Desktop/Tablet Sidebar*/}
       <GlassCard 
-        className="group hidden md:flex flex-col h-screen justify-between text-charcoal transition-all duration-300 ease-in-out w-[70px] hover:w-[220px] overflow-hidden !min-w-0"
+        className="group hidden md:flex flex-col h-screen justify-between text-charcoal transition-all duration-200 ease-in-out w-[70px] hover:w-[210px] overflow-hidden !min-w-0"
       >
         <div className="flex flex-col">
           <div className="flex items-center h-[60px] mb-2 pl-[15px]">

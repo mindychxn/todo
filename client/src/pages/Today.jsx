@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import GlassCard from '../components/common/GlassCard';
 import Loading from '../components/common/Loading';
 import EditTodo from '../components/todos/EditTodo';
@@ -6,6 +6,7 @@ import { getToday, deleteTodo, editTodo } from '../api/api';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import confetti from 'canvas-confetti';
 
 function TodayItem({ todo, onComplete, onDelete, onEdit }) {
   const [showNotes, setShowNotes] = useState(false);
@@ -68,6 +69,28 @@ export default function Today() {
   const [todayTodos, setTodayTodos] = useState([]);
   const [completedToday, setCompletedToday] = useState([]);
   const [loading, setLoading] = useState(true);
+  const progressBarRef = useRef(null);
+
+  const todayKey = `confetti_${new Date().toISOString().split('T')[0]}`;
+
+  const fireConfetti = () => {
+    if (progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x, y }
+      });
+    } else {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  };
 
   const loadToday = async () => {
     const [incomplete, completed] = await Promise.all([
@@ -79,9 +102,22 @@ export default function Today() {
     setLoading(false);
   };
 
+  const totalToday = todayTodos.length + completedToday.length;
+  const progressPercent = totalToday > 0 ? (completedToday.length / totalToday) * 100 : 0;
+
   useEffect(() => {
     loadToday();
   }, []);
+
+  useEffect(() => {
+    if (!loading && totalToday > 0 && todayTodos.length === 0) {
+      const storedCount = parseInt(localStorage.getItem(todayKey) || '0', 10);
+      if (completedToday.length > storedCount) {
+        localStorage.setItem(todayKey, completedToday.length.toString());
+        fireConfetti();
+      }
+    }
+  }, [loading, todayTodos.length, completedToday.length, totalToday, todayKey]);
 
   const onComplete = async (todo) => {
     await editTodo(todo.todo_id, todo.title, todo.notes, todo.due, todo.priority, todo.remind_at, true);
@@ -92,9 +128,6 @@ export default function Today() {
     await deleteTodo(id);
     loadToday();
   };
-
-  const totalToday = todayTodos.length + completedToday.length;
-  const progressPercent = totalToday > 0 ? (completedToday.length / totalToday) * 100 : 0;
 
   const date = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -133,15 +166,20 @@ export default function Today() {
                     {completedToday.length} of {totalToday} tasks
                   </span>
                 </div>
-                <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                <div 
+                  ref={progressBarRef} 
+                  className="w-full h-8 bg-gray-200 rounded-full overflow-hidden relative"
+                >
                   <div 
                     className="h-full bg-gradient-to-r from-babyPink via-babyPurple to-babyBlue transition-all duration-500 ease-out"
                     style={{ width: `${progressPercent}%` }}
                   />
+                  {progressPercent === 100 && (
+                    <div className="absolute inset-0 flex items-center justify-center text-sm text-white font-medium">
+                      All done for today! 🎉
+                    </div>
+                  )}
                 </div>
-                {progressPercent === 100 && (
-                  <div className="text-sm text-green-600 font-medium">All done for today! 🎉</div>
-                )}
               </GlassCard>
             )}
 
