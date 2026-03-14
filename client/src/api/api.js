@@ -48,9 +48,10 @@ export const deleteTodo = async (id) => {
 
 export const createTodo = async (title, notes, due, priority, remind_at) => {
   try {
+    const formattedDue = due ? due.format('YYYY-MM-DD') : null;
     const response = await authFetch(`${API_URL}/todos/create`, {
       method: 'POST',
-      body: JSON.stringify({ title, notes, due, priority, remind_at }),
+      body: JSON.stringify({ title, notes, due: formattedDue, priority, remind_at }),
     });
     return response.ok;
   } catch (err) {
@@ -61,9 +62,10 @@ export const createTodo = async (title, notes, due, priority, remind_at) => {
 
 export const editTodo = async (id, title, notes, due, priority, remind_at, complete) => {
   try {
+    const formattedDue = due?.format ? due.format('YYYY-MM-DD') : due;
     const response = await authFetch(`${API_URL}/todos/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ title, notes, due, priority, remind_at, complete }),
+      body: JSON.stringify({ title, notes, due: formattedDue, priority, remind_at, complete }),
     });
     return response.ok;
   } catch (err) {
@@ -74,7 +76,8 @@ export const editTodo = async (id, title, notes, due, priority, remind_at, compl
 
 export const getToday = async (complete) => {
   try {
-    const response = await authFetch(`${API_URL}/todos/today?complete=${complete}`);
+    const today = new Date().toLocaleDateString('en-CA');
+    const response = await authFetch(`${API_URL}/todos/today?complete=${complete}&date=${today}`);
     return await response.json();
   } catch (err) {
     console.error(err);

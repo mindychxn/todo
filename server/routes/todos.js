@@ -39,11 +39,12 @@ router.get('/today', authorization, async (req, res) => {
   try {
     const userId = req.user;
     const complete = req.query.complete === 'true';
+    const todayDate = req.query.date || new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
     const query = complete
-      ? 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NOT NULL AND due = CURRENT_DATE ORDER BY completed_at DESC'
-      : `SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL AND due = CURRENT_DATE 
+      ? 'SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NOT NULL AND due = $2 ORDER BY completed_at DESC'
+      : `SELECT * FROM todo WHERE user_id = $1 AND completed_at IS NULL AND due = $2 
          ORDER BY CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END`;
-    const todayTodos = await pool.query(query, [userId]);
+    const todayTodos = await pool.query(query, [userId, todayDate]);
     res.json(todayTodos.rows);
   } catch (err) {
     console.error(err);
